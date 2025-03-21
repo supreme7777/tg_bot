@@ -10,10 +10,14 @@ dp = Dispatcher()
 logging.basicConfig(level=logging.INFO)
 
 # Tugmalar menyusi
-menu_keyboard = ReplyKeyboardMarkup(resize_keyboard=True)
-menu_keyboard.add(KeyboardButton("🛍 Xizmatlar"))
-menu_keyboard.add(KeyboardButton("💎 Premium obuna"))
-menu_keyboard.add(KeyboardButton("📞 Aloqa"))
+menu_keyboard = ReplyKeyboardMarkup(
+    keyboard=[
+        [KeyboardButton(text="🛍 Xizmatlar")],
+        [KeyboardButton(text="💎 Premium obuna")],
+        [KeyboardButton(text="📞 Aloqa")]
+    ],
+    resize_keyboard=True
+)
 
 @dp.message(F.text == "/start")
 async def start_cmd(message: types.Message):
@@ -21,7 +25,7 @@ async def start_cmd(message: types.Message):
 
 @dp.message(F.text == "🛍 Xizmatlar")
 async def services_cmd(message: types.Message):
-    await message.answer("Bu yerda xizmatlaringizni sanab o‘tish mumkin. Masalan: - AI yordamida matn yozish - Dizayn xizmatlari - Freelancer yordamchi", reply_markup=menu_keyboard)
+    await message.answer("Bu yerda xizmatlaringizni sanab o‘tish mumkin. Masalan:\n- AI yordamida matn yozish\n- Dizayn xizmatlari\n- Freelancer yordamchi", reply_markup=menu_keyboard)
 
 @dp.message(F.text == "💎 Premium obuna")
 async def premium_cmd(message: types.Message):
