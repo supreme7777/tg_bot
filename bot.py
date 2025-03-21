@@ -1,12 +1,17 @@
 import asyncio
 import logging
+import openai
 from aiogram import Bot, Dispatcher, types, F
 from aiogram.types import ReplyKeyboardMarkup, KeyboardButton
-from config import TOKEN
+from openai import OpenAI
+from config import TOKEN, OPENAI_API_KEY
+
+# OpenAI mijozini sozlash
+client = OpenAI(api_key=OPENAI_API_KEY)
 
 # Bot va dispatcher
-bot = Bot(TOKEN)
 dp = Dispatcher()
+bot = Bot(TOKEN)
 logging.basicConfig(level=logging.INFO)
 
 # Tugmalar menyusi
@@ -18,6 +23,15 @@ menu_keyboard = ReplyKeyboardMarkup(
     ],
     resize_keyboard=True
 )
+
+# OpenAI bilan ishlov berish funksiyasi
+async def process_text(text, task="edit"):
+    prompt = f"'{text}' matnini {task} qilib yoz."
+    response = client.chat.completions.create(
+        model="gpt-4o",
+        messages=[{"role": "system", "content": prompt}]
+    )
+    return response.choices[0].message.content
 
 @dp.message(F.text == "/start")
 async def start_cmd(message: types.Message):
@@ -34,6 +48,12 @@ async def premium_cmd(message: types.Message):
 @dp.message(F.text == "📞 Aloqa")
 async def contact_cmd(message: types.Message):
     await message.answer("Bog‘lanish uchun: @username")
+
+@dp.message()
+async def handle_text(message: types.Message):
+    user_text = message.text
+    processed_text = await process_text(user_text, "tahrirlash")
+    await message.answer(f"📌 Tahrirlangan matn:\n\n{processed_text}")
 
 async def main():
     await dp.start_polling(bot)
