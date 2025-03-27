@@ -3,6 +3,10 @@ import logging
 from aiogram import Bot, Dispatcher, types, F
 from aiogram.types import ReplyKeyboardMarkup, KeyboardButton
 from config import TOKEN
+from together import Together
+
+# Together AI mijozini ishga tushirish
+client = Together()
 
 # Bot va dispatcher
 bot = Bot(TOKEN)
@@ -25,7 +29,12 @@ async def start_cmd(message: types.Message):
 
 @dp.message(F.text == "AI")
 async def services_cmd(message: types.Message):
-    await message.answer("- AI yordamida matn yozish\n- Dizayn xizmatlari\n- Freelancer yordam", reply_markup=menu_keyboard)
+    response = client.chat.completions.create(
+        model="meta-llama/Llama-3.3-70B-Instruct-Turbo",
+        messages=[{"role": "user", "content": "AI qanday yordam bera oladi?"}],
+    )
+    ai_response = response.choices[0].message.content
+    await message.answer(ai_response, reply_markup=menu_keyboard)
 
 @dp.message(F.text == "Taxta")
 async def taxta_cmd(message: types.Message):
