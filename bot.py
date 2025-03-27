@@ -2,11 +2,11 @@ import asyncio
 import logging
 from aiogram import Bot, Dispatcher, types, F
 from aiogram.types import ReplyKeyboardMarkup, KeyboardButton
-from config import TOKEN
+from config import TOKEN, TOGETHER_API_KEY  
 from together import Together
 
 # Together AI mijozini ishga tushirish
-client = Together()
+client = Together(api_key=TOGETHER_API_KEY)
 
 # Bot va dispatcher
 bot = Bot(TOKEN)
