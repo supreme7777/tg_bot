@@ -29,4 +29,22 @@ async def services_cmd(message: types.Message):
 
 @dp.message(F.text == "Taxta")
 async def taxta_cmd(message: types.Message):
-    await message.answer("Premium foydalanuvchilar uchun maxsus xizmatlar mavjud. Batafsil ma’lumot uchun biz bilan bog‘laning!", reply_markup=menu_
+    await message.answer("Premium foydalanuvchilar uchun maxsus xizmatlar mavjud. Batafsil ma’lumot uchun biz bilan bog‘laning!", reply_markup=menu_keyboard)
+
+@dp.message(F.text == "Shaxta")
+async def shaxta_cmd(message: types.Message):
+    await message.answer("Premium foydalanuvchilar uchun maxsus xizmatlar mavjud. Batafsil ma’lumot uchun biz bilan bog‘laning!", reply_markup=menu_keyboard)
+
+@dp.message(F.text == "Paxta")
+async def paxta_cmd(message: types.Message):
+    await message.answer("Premium foydalanuvchilar uchun maxsus xizmatlar mavjud. Batafsil ma’lumot uchun biz bilan bog‘laning!", reply_markup=menu_keyboard)
+
+@dp.message(F.text == "📞 Aloqa")
+async def contact_cmd(message: types.Message):
+    await message.answer("Bog‘lanish uchun: @asadbek7r")
+
+async def main():
+    await dp.start_polling(bot)
+
+if __name__ == "__main__":
+    asyncio.run(main())
